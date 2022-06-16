@@ -14,10 +14,11 @@ export default function App() {
 
   return (
     <>
+      
       <NavigationContainer >
         <Stack.Navigator initialRouteName='tela_inicial' screenOptions={{ headerShown: true }}>
-          <Stack.Screen options={{ title: "Tela Inicial" }} name='tela_inicial' component={Dashboard}></Stack.Screen>
-          <Stack.Screen options={{ title: "Configurações" }} name='configuracoes' component={Configs}></Stack.Screen>
+          <Stack.Screen options={{ headerShown: false , title: "Tela Inicial" }} name='tela_inicial' component={Dashboard}></Stack.Screen>
+          <Stack.Screen options={{ headerShown: false , title: "Configurações" }} name='configuracoes' component={Configs}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>
