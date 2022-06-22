@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 export function ButtonSound({onPress}) {
     return (
         <TouchableOpacity onPress={onPress}>
-            <AntDesign name="sound" size={26} color="black" />
+            <AntDesign name="sound" size={26} color="white" />
         </TouchableOpacity>
     );
 }
@@ -15,9 +15,6 @@ export function ButtonSound({onPress}) {
 const style = StyleSheet.create({
     container: {
         padding: 16,
-        backgroundColor: 'blue',
-
-
     },
 
 })

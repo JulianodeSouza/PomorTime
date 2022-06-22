@@ -10,22 +10,29 @@ import { ButtonPlay_Pause } from '../assets/components/ButtonPlay_Pause';
 
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
-    const [primaryTime, setTime] = React.useState(15);
-    const [secondaryTime, setTime2] = React.useState(5);
-    const [CurrentyTime, setCurrentTime] = React.useState(primaryTime);
-
+    const [workTime, setWorkTime] = React.useState(10);
+    const [restTime, setRestTime] = React.useState(5);
     const [estado, setEstado] = React.useState("Trabalhando");
 
     const changeScreen = () => {
-        navigation.navigate('configuracoes', { time: primaryTime, setTime });
+        navigation.navigate('configuracoes', {workTime, setWorkTime, restTime, setRestTime });
         setIsPlaying(false)
     }
-    const onComplete = () => {
-        setEstado(estado == 'Trabalhando' ? 'Relaxando' : 'Trabalhando');
-        setCurrentTime(estado == 'Trabalhando' ? secondaryTime : primaryTime);
-        console.log("onComplete");
-        return ({ shouldRepeat: true, delay: 10, newInitialRemainingTime: estado == 'Trabalhando' ? secondaryTime : primaryTime });
+
+    const onCompleteWorkPeriod = () => {
+        console.log("terminou")
+
+        setEstado('Relaxando');
+        return ({ shouldRepeat: false, delay: 1, newInitialRemainingTime: workTime });
     }
+
+    const onCompleteRestTime = () => {
+        console.log("terminou")
+
+        setEstado('Trabalhando');
+        return ({ shouldRepeat: false, delay: 1, newInitialRemainingTime: restTime });
+    }
+
     return (
 
         <View style={styles.container}>
@@ -35,19 +42,38 @@ export default function Dashboard({ navigation }) {
             </View>
 
             <View style={styles.timer}>
-                <CountdownCircleTimer
-                    isPlaying={isPlaying}
-                    duration={CurrentyTime}
-                    colors={["#1a54d4", "#1441a5", "#0f2f76", "#091c47"]}
-                    colorsTime={[10, 6, 3, 0]}
-                    onComplete={onComplete}>
-                    {({ remainingTime, color }) => (
-                        <Text style={{ color, fontSize: 40 }}>
-                            {remainingTime}
-                        </Text>
-                    )}
-                </CountdownCircleTimer>
-                
+
+                {estado == 'Trabalhando' && (
+                    <CountdownCircleTimer
+                        isPlaying={isPlaying}
+                        duration={workTime}
+                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colorsTime={[10, 6, 3, 0]}
+                        onComplete={onCompleteWorkPeriod}>
+                        {({ remainingTime }) => (
+                            <Text style={{ color: 'white', fontSize: 40 }}>
+                                {remainingTime}
+                            </Text>
+                        )}
+                    </CountdownCircleTimer>
+                )}
+
+                {estado == 'Relaxando' && (
+                    <CountdownCircleTimer
+                        isPlaying={isPlaying}
+                        duration={restTime}
+                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colorsTime={[10, 6, 3, 0]}
+                        onComplete={onCompleteRestTime}>
+                        {({ remainingTime }) => (
+                            <Text style={{ color: 'white', fontSize: 40 }}>
+                                {remainingTime}
+                            </Text>
+                        )}
+                    </CountdownCircleTimer>
+                )}
+
+
                 <ButtonPlay_Pause name={isPlaying ? 'pause' : 'play'} onPress={() => setIsPlaying(prev => !prev)}></ButtonPlay_Pause>
             </View>
         </View>
@@ -58,7 +84,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#87CEFA',
+        backgroundColor: '#5390d9',
         padding: 8,
     },
     buttonsConfs: {

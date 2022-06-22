@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 export function ButtonGear({onPress}) {
     return (
         <TouchableOpacity onPress={onPress}>
-            <FontAwesome name="gear" size={26} color="black" />
+            <FontAwesome name="gear" size={26} color="white" />
         </TouchableOpacity>
     );
 }
@@ -14,9 +14,6 @@ export function ButtonGear({onPress}) {
 const style = StyleSheet.create({
     container: {
         padding: 16,
-        backgroundColor: 'blue',
-
-
     },
 
 })

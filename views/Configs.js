@@ -6,28 +6,30 @@ import { TextInput } from 'react-native-gesture-handler';
 export default function Configs({ route, navigation }) {
     const inputAccessoryViewID = 'uniqueID';
     const initialText = '';
-    const { time, setTime } = route.params;
-    const [text, setText] = React.useState(time);
+    const { workTime, setWorkTime, restTime, setRestTime } = route.params;
+    const [textWork, setWorkText] = React.useState(workTime);
+    const [textShortRest, setText] = React.useState(restTime);
 
 
     return (
         <View style={styles.container}>
             <View style={styles.inputs}>
-                <Text>Tempo de foco</Text>
+                <Text style={{ fontSize: 20 }}>Tempo de foco</Text>
                 <TextInput onBlur={() => {
-                    Number(text)
-                    setTime(Number(text))
+                    Number(textWork)
+                    setWorkTime(Number(textWork))
 
-                }} style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setText} value={text} placeholder={'Please type here…'} />
+                }} style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setWorkText} value={textWork} placeholder={'Please type here…'} />
             </View>
 
+            <View style={styles.inputs}>
+                <Text style={{ fontSize: 20 }}>Tempo descanso curto</Text>
+                <TextInput onBlur={() => {
+                    Number(textShortRest)
+                    setRestTime(Number(textShortRest))
 
-
-
-
-
-
-
+                }} style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setText} value={textShortRest} placeholder={'Please type here…'} />
+            </View>
 
             <View style={styles.save}>
                 <Button title="Salvar" onPress={() => navigation.navigate('tela_inicial')} />
@@ -42,21 +44,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#87CEFA',
+        backgroundColor: '#50808e',
         padding: 8,
     },
+
     inputs: {
         flex: 2,
+        alignItems: 'center',
+        marginTop: 50,
     },
+
+    inputShort: {
+        flex: 3,
+        alignItems: 'center',
+    },
+
     camposText: {
         padding: 16,
-        marginTop: 50,
+        marginTop: 15,
         backgroundColor: "white",
         borderWidth: 2,
         borderColor: 'black',
         borderRadius: 10,
     },
+    
     save: {
-        flex: 3,
+        flex: 4,
+        width: '100%',
+        borderRadius: '50px'
     }
 });
