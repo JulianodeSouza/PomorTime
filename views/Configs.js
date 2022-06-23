@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet, Button, Text } from 'react-native';
 import Constants from 'expo-constants';
 import { TextInput } from 'react-native-gesture-handler';
+import { ButtonSave } from '../assets/components/ButtonSave';
 
 export default function Configs({ route, navigation }) {
     const inputAccessoryViewID = 'uniqueID';
@@ -32,8 +33,9 @@ export default function Configs({ route, navigation }) {
             </View>
 
             <View style={styles.save}>
-                <Button title="Salvar" onPress={() => navigation.navigate('tela_inicial')} />
+                <ButtonSave title="Salvar" onPress={() => navigation.navigate('tela_inicial')} />
             </View>
+            
         </View>
     )
 }
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#50808e',
+        backgroundColor: '#57D0DB',
         padding: 8,
     },
 
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     },
     
     save: {
-        flex: 4,
+        marginBottom: 10,
         width: '100%',
         borderRadius: '50px'
     }
