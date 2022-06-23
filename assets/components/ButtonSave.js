@@ -14,7 +14,7 @@ export function ButtonSave({ onPress, title }) {
 const styles = StyleSheet.create({
     saves: {
         padding: 16,
-        backgroundColor: '#87CEFA',
+        backgroundColor: '#4885C3',
         borderRadius: 20,
 
     },
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center',
         fontSize: 20,
+        color: "#FFF",
 
     }
 
