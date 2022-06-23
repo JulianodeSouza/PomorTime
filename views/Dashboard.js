@@ -47,7 +47,7 @@ export default function Dashboard({ navigation }) {
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
                         duration={workTime}
-                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colors={["#f64f59", "#AF7AC5", "#12c2e9", "#1565c0"]}
                         colorsTime={[10, 6, 3, 0]}
                         onComplete={onCompleteWorkPeriod}>
                         {({ remainingTime }) => (
@@ -62,7 +62,7 @@ export default function Dashboard({ navigation }) {
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
                         duration={restTime}
-                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colors={["#80ED99 ", "#22577A", "#00F260", "#0575E6",]}
                         colorsTime={[10, 6, 3, 0]}
                         onComplete={onCompleteRestTime}>
                         {({ remainingTime }) => (
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: '#5390d9',
+        backgroundColor: '#DABFFF',
         padding: 8,
     },
     buttonsConfs: {
