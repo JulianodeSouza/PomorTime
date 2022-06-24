@@ -15,15 +15,12 @@ const styles = StyleSheet.create({
     saves: {
         padding: 16,
         backgroundColor: '#4885C3',
-        borderRadius: 20,
-
+        borderRadius: 50
     },
-
     text: {
         textAlign: 'center',
         fontSize: 20,
-        color: "#FFF",
-
+        color: "#FFF",        
     }
 
 })

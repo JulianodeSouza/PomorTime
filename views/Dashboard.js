@@ -10,12 +10,16 @@ import { ButtonPlay_Pause } from '../assets/components/ButtonPlay_Pause';
 
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
+
     const [workTime, setWorkTime] = React.useState(10);
-    const [restTime, setRestTime] = React.useState(5);
+    const [shortRestTime, setShortRestTime] = React.useState(5);
+    const [longRestTime, setLongRestTime] = React.useState(5);
+    const [cycles, setCycles] = React.useState(1);
+
     const [estado, setEstado] = React.useState("Trabalhando");
 
     const changeScreen = () => {
-        navigation.navigate('configuracoes', {workTime, setWorkTime, restTime, setRestTime });
+        navigation.navigate('configuracoes', { workTime, setWorkTime, shortRestTime, setShortRestTime, longRestTime, setLongRestTime, cycles, setCycles });
         setIsPlaying(false)
     }
 
@@ -30,7 +34,7 @@ export default function Dashboard({ navigation }) {
         console.log("terminou")
 
         setEstado('Trabalhando');
-        return ({ shouldRepeat: false, delay: 1, newInitialRemainingTime: restTime });
+        return ({ shouldRepeat: false, delay: 1, newInitialRemainingTime: shortRestTime });
     }
 
     return (
@@ -42,6 +46,9 @@ export default function Dashboard({ navigation }) {
             </View>
 
             <View style={styles.timer}>
+
+                <Text style={{marginBottom: 25, color: '#FFF', fontSize: 30 , letterSpacing: 1, fontWeight: 'bold'}}>{estado}</Text>
+
 
                 {estado == 'Trabalhando' && (
                     <CountdownCircleTimer
@@ -61,7 +68,7 @@ export default function Dashboard({ navigation }) {
                 {estado == 'Relaxando' && (
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
-                        duration={restTime}
+                        duration={shortRestTime}
                         colors={["#80ED99 ", "#22577A", "#00F260", "#0575E6",]}
                         colorsTime={[10, 6, 3, 0]}
                         onComplete={onCompleteRestTime}>

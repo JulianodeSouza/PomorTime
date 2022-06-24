@@ -9,16 +9,13 @@ import Configs from './views/Configs';
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [isPlaying, setIsPlaying] = React.useState(true)
-  const [time, setTime] = React.useState(15)
-
   return (
     <>
-      
+
       <NavigationContainer >
         <Stack.Navigator initialRouteName='tela_inicial' screenOptions={{ headerShown: true }}>
-          <Stack.Screen options={{ headerShown: false , title: "Tela Inicial" }} name='tela_inicial' component={Dashboard}></Stack.Screen>
-          <Stack.Screen options={{ headerShown: false , title: "Configurações" }} name='configuracoes' component={Configs}></Stack.Screen>
+          <Stack.Screen options={{ headerShown: false, title: "Tela Inicial" }} name='tela_inicial' component={Dashboard}></Stack.Screen>
+          <Stack.Screen options={{ headerShown: true, title: "Configurações", headerTitleStyle: { fontWeight: 'bold', color: 'black' }, headerStyle: { backgroundColor: '#57D0DB' } }} name='configuracoes' component={Configs}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>
