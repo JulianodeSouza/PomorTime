@@ -11,77 +11,90 @@ import { ButtonPlay_Pause } from '../assets/components/ButtonPlay_Pause';
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
-    const [workTime, setWorkTime] = React.useState(10);
+    const [workTime, setWorkTime] = React.useState(5);
     const [shortRestTime, setShortRestTime] = React.useState(5);
     const [longRestTime, setLongRestTime] = React.useState(5);
     const [cycles, setCycles] = React.useState(1);
-
     const [estado, setEstado] = React.useState("Trabalhando");
+    const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
 
     const changeScreen = () => {
         navigation.navigate('configuracoes', { workTime, setWorkTime, shortRestTime, setShortRestTime, longRestTime, setLongRestTime, cycles, setCycles });
-        setIsPlaying(false)
+        setIsPlaying(false);
     }
 
     const onCompleteWorkPeriod = () => {
-        console.log("terminou")
-
         setEstado('Relaxando');
-        return ({ shouldRepeat: false, delay: 1, newInitialRemainingTime: workTime });
+        setIsPlaying(false);
+
+        if (ciclosConcluidos < cycles) {
+            setCiclosConcluidos(ciclosConcluidos + 1);
+        }
+        return ({ shouldRepeat: false, delay: 5, newInitialRemainingTime: workTime });
     }
 
-    const onCompleteRestTime = () => {
-        console.log("terminou")
-
+    const onCompleteShortRestTime = () => {
         setEstado('Trabalhando');
-        return ({ shouldRepeat: false, delay: 1, newInitialRemainingTime: shortRestTime });
+        setIsPlaying(false);
+
+        return ({ shouldRepeat: false, delay: 5, newInitialRemainingTime: shortRestTime });
+    }
+
+    const onCompleteLongRestTime = () => {
+        setEstado('Trabalhando');
+        setIsPlaying(false);
+        setCiclosConcluidos(0);
+
+        return ({ shouldRepeat: false, delay: 5, newInitialRemainingTime: longRestTime });
     }
 
     return (
-
         <View style={styles.container}>
             <View style={styles.buttonsConfs}>
-                <ButtonSound onPress={() => console.log("Teste")} />
+                <ButtonSound name={isPlaying ? 'volume-mute-outline' : 'sound'} onPress={() => console.log("Teste")} />
                 <ButtonGear style={styles.buttonGear} onPress={changeScreen}> </ButtonGear>
             </View>
 
             <View style={styles.timer}>
-
-                <Text style={{marginBottom: 25, color: '#FFF', fontSize: 30 , letterSpacing: 1, fontWeight: 'bold'}}>{estado}</Text>
-
-
+                <Text style={{ marginBottom: 25, color: '#FFF', fontSize: 30, letterSpacing: 1, fontWeight: 'bold' }}>{estado}</Text>
                 {estado == 'Trabalhando' && (
+
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
                         duration={workTime}
-                        colors={["#f64f59", "#AF7AC5", "#12c2e9", "#1565c0"]}
-                        colorsTime={[10, 6, 3, 0]}
+                        colors={["#BC0017"]}
                         onComplete={onCompleteWorkPeriod}>
-                        {({ remainingTime }) => (
-                            <Text style={{ color: 'white', fontSize: 40 }}>
-                                {remainingTime}
-                            </Text>
-                        )}
+                        {({ remainingTime }) => (<Text style={{ color: 'white', fontSize: 40 }}> {remainingTime} </Text>)}
                     </CountdownCircleTimer>
                 )}
 
-                {estado == 'Relaxando' && (
+                {estado == 'Relaxando' && ciclosConcluidos != cycles && (
+
                     <CountdownCircleTimer
                         isPlaying={isPlaying}
                         duration={shortRestTime}
-                        colors={["#80ED99 ", "#22577A", "#00F260", "#0575E6",]}
-                        colorsTime={[10, 6, 3, 0]}
-                        onComplete={onCompleteRestTime}>
-                        {({ remainingTime }) => (
-                            <Text style={{ color: 'white', fontSize: 40 }}>
-                                {remainingTime}
-                            </Text>
-                        )}
+                        colors={["#274F0A"]}
+                        onComplete={onCompleteShortRestTime}>
+                        {({ remainingTime }) => (<Text style={{ color: 'white', fontSize: 40 }}> {remainingTime} </Text>)}
                     </CountdownCircleTimer>
                 )}
 
+                {estado == 'Relaxando' && ciclosConcluidos == cycles && (
 
+                    <CountdownCircleTimer
+                        isPlaying={isPlaying}
+                        duration={longRestTime}
+                        colors={["#274F0A"]}
+                        onComplete={onCompleteLongRestTime}>
+                        {({ remainingTime }) => (<Text style={{ color: 'white', fontSize: 40 }}> {remainingTime} </Text>)}
+                    </CountdownCircleTimer>
+                )}
                 <ButtonPlay_Pause name={isPlaying ? 'pause' : 'play'} onPress={() => setIsPlaying(prev => !prev)}></ButtonPlay_Pause>
+            </View>
+
+
+            <View>
+                <Text style={{ color: '#fff', fontSize: 20, paddingBottom: 15 }}>Ciclos: {ciclosConcluidos}/{cycles}</Text>
             </View>
         </View>
     )
@@ -95,14 +108,14 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     buttonsConfs: {
-        paddingTop: 12,
         flex: 2,
+        paddingTop: 12,
         justifyContent: 'space-between',
         flexDirection: 'row',
     },
     timer: {
         flex: 3,
-        alignItems: 'center'
-
+        alignItems: 'center',
+        marginBottom: 145
     }
 });

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { View, StyleSheet, Button, Text } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import { TextInput } from 'react-native-gesture-handler';
 import { ButtonSave } from '../assets/components/ButtonSave';
+import { TextInputMask } from 'react-native-masked-text'
 
 export default function Configs({ route, navigation }) {
     const inputAccessoryViewID = 'uniqueID';
@@ -20,32 +21,91 @@ export default function Configs({ route, navigation }) {
         setCycles(Number(textCycles));
     }
 
+    const showAlert = () =>
+        Alert.alert(
+            "Atenção",
+            "Preencha os campos corretamente!",
+            [
+                {
+                    text: "Fechar",
+                    style: "cancel",
+                },
+                {
+                    cancelable: true,
+                }
+            ],
+        );
+
     return (
         <View style={styles.container}>
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center'}}>Tempo de foco</Text>
-                <TextInput style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setWorkText} value={textWork} placeholder={'Digite o tempo.'} />
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Tempo de foco</Text>
+                <TextInputMask
+                    type={'custom'}
+                    options={{
+                        mask: '99:99'
+                    }}
+                    style={styles.camposText}
+                    inputAccessoryViewID={inputAccessoryViewID}
+                    onChangeText={setWorkText}
+                    value={textWork}
+                    placeholder={'00:00'}
+                    keyboardType="numeric" />
             </View>
 
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center'}}>Tempo descanso curto</Text>
-                <TextInput style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setShortText} value={textShortRest} placeholder={'Digite o tempo.'} />
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Descanso curto</Text>
+                <TextInputMask
+                    type={'custom'}
+                    options={{
+                        mask: '99:99'
+                    }}
+                    style={styles.camposText}
+                    inputAccessoryViewID={inputAccessoryViewID}
+                    onChangeText={setShortText}
+                    value={textShortRest}
+                    placeholder={'00:00'}
+                    keyboardType="numeric" />
             </View>
 
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center'}}>Descanso Longo</Text>
-                <TextInput style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setLongRestText} value={textLongRest} placeholder={'Digite a quantidade.'} />
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Descanso Longo</Text>
+                <TextInputMask
+                    type={'custom'}
+                    options={{
+                        mask: '99:99'
+                    }}
+                    style={styles.camposText}
+                    inputAccessoryViewID={inputAccessoryViewID}
+                    onChangeText={setLongRestText}
+                    value={textLongRest}
+                    placeholder={'00:00'}
+                    keyboardType="numeric" />
             </View>
 
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center'  }}>Ciclos</Text>
-                <TextInput style={styles.camposText} inputAccessoryViewID={inputAccessoryViewID} onChangeText={setCyclesText} value={textCycles} placeholder={'Digite a quantidade.'} />
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Ciclos</Text>
+                <TextInputMask
+                    type={'custom'}
+                    options={{
+                        mask: '99:99'
+                    }}
+                    style={styles.camposText}
+                    inputAccessoryViewID={inputAccessoryViewID}
+                    onChangeText={setCyclesText}
+                    value={textCycles}
+                    placeholder={'Digite a quantidade.'}
+                    keyboardType="numeric" />
             </View>
 
             <View style={styles.save}>
                 <ButtonSave title="Salvar" onPress={() => {
-                    save()
-                    navigation.navigate('tela_inicial')
+                    if (textWork < 1 || textShortRest < 1 || textLongRest < 1 || textCycles < 1) {
+                        showAlert();
+                    } else {
+                        save();
+                        navigation.navigate('tela_inicial');
+                    }
                 }} />
             </View>
 
@@ -54,29 +114,32 @@ export default function Configs({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {          
+    container: {
         paddingTop: Constants.statusBarHeight,
         backgroundColor: '#57D0DB',
         height: '100%',
-    },  
-    inputs: {      
-        marginTop: 10,               
+    },
+    inputs: {
+        marginTop: 10,
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: 10,
+        paddingRight: 10
     },
     camposText: {
         textAlign: 'center',
+        backgroundColor: "white",
+        borderColor: 'black',
+        width: '100%',
         padding: 10,
         marginTop: 15,
-        backgroundColor: "white",
         borderWidth: 2,
-        borderColor: 'black',
         borderRadius: 10,
     },
     save: {
         width: '100%',
         paddingLeft: 8,
         paddingRight: 8,
-        marginTop: 130
+        marginTop: 230
     }
 });

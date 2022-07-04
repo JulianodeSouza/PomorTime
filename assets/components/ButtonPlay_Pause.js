@@ -13,10 +13,7 @@ export function ButtonPlay_Pause({ onPress, name }) {
 
 const style = StyleSheet.create({
     container: {
-        padding: 16,
-        backgroundColor: 'blue',
-
-
+        padding: 16,    
     },
 
 })

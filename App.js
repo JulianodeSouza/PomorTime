@@ -15,7 +15,7 @@ export default function App() {
       <NavigationContainer >
         <Stack.Navigator initialRouteName='tela_inicial' screenOptions={{ headerShown: true }}>
           <Stack.Screen options={{ headerShown: false, title: "Tela Inicial" }} name='tela_inicial' component={Dashboard}></Stack.Screen>
-          <Stack.Screen options={{ headerShown: true, title: "Configurações", headerTitleStyle: { fontWeight: 'bold', color: 'black' }, headerStyle: { backgroundColor: '#57D0DB' } }} name='configuracoes' component={Configs}></Stack.Screen>
+          <Stack.Screen options={{ headerShown: true, title: "Configurações", headerTitleStyle: { fontWeight: 'bold', color: '#fff' }, headerStyle: { backgroundColor: '#57D0DB' } }} name='configuracoes' component={Configs}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>
