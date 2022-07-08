@@ -15,7 +15,11 @@ export default function Configs({ route, navigation }) {
     const [textCycles, setCyclesText] = React.useState(cycles + '');
 
     const save = () => {
-        setWorkTime(Number(textWork));
+        let minutes = textWork.split(':');
+        minutes = minutes[0] * 60;
+
+        setWorkTime(Number(minutes));
+        setSecondsWorkTime(Number(secondsFoco))
         setShortRestTime(Number(textShortRest));
         setLongRestTime(Number(textLongRest));
         setCycles(Number(textCycles));
@@ -49,7 +53,7 @@ export default function Configs({ route, navigation }) {
                     inputAccessoryViewID={inputAccessoryViewID}
                     onChangeText={setWorkText}
                     value={textWork}
-                    placeholder={'00:00'}
+                    placeholder={'0:00'}
                     keyboardType="numeric" />
             </View>
 
@@ -85,11 +89,7 @@ export default function Configs({ route, navigation }) {
 
             <View style={styles.inputs}>
                 <Text style={{ fontSize: 20, textAlign: 'center' }}>Ciclos</Text>
-                <TextInputMask
-                    type={'custom'}
-                    options={{
-                        mask: '99:99'
-                    }}
+                <TextInput
                     style={styles.camposText}
                     inputAccessoryViewID={inputAccessoryViewID}
                     onChangeText={setCyclesText}
