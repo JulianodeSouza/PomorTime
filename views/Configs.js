@@ -15,20 +15,21 @@ export default function Configs({ route, navigation }) {
     const [textCycles, setCyclesText] = React.useState(cycles + '');
 
     const save = () => {
-        let minutes = textWork.split(':');
-        minutes = minutes[0] * 60;
+        let minutesWork = textWork.split(':');
+        minutesWork = minutesWork[0] * 60;  
+        
+        console.log(minutesWork)
 
-        setWorkTime(Number(minutes));
-        setSecondsWorkTime(Number(secondsFoco))
+        setWorkTime(Number(minutesWork));
         setShortRestTime(Number(textShortRest));
         setLongRestTime(Number(textLongRest));
         setCycles(Number(textCycles));
     }
 
-    const showAlert = () =>
+    const alertFormatoCampos = () =>
         Alert.alert(
             "Atenção",
-            "Preencha os campos corretamente!",
+            "Preencha todos campos corretamente!",
             [
                 {
                     text: "Fechar",
@@ -38,12 +39,12 @@ export default function Configs({ route, navigation }) {
                     cancelable: true,
                 }
             ],
-        );
+        );    
 
     return (
         <View style={styles.container}>
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>Tempo de foco</Text>
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Tempo de foco (minutos)</Text>
                 <TextInputMask
                     type={'custom'}
                     options={{
@@ -53,12 +54,12 @@ export default function Configs({ route, navigation }) {
                     inputAccessoryViewID={inputAccessoryViewID}
                     onChangeText={setWorkText}
                     value={textWork}
-                    placeholder={'0:00'}
+                    placeholder={'00:00'}
                     keyboardType="numeric" />
             </View>
 
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>Descanso curto</Text>
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Descanso curto (minutos)</Text>
                 <TextInputMask
                     type={'custom'}
                     options={{
@@ -73,7 +74,7 @@ export default function Configs({ route, navigation }) {
             </View>
 
             <View style={styles.inputs}>
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>Descanso Longo</Text>
+                <Text style={{ fontSize: 20, textAlign: 'center' }}>Descanso Longo (minutos)</Text>
                 <TextInputMask
                     type={'custom'}
                     options={{
@@ -100,11 +101,13 @@ export default function Configs({ route, navigation }) {
 
             <View style={styles.save}>
                 <ButtonSave title="Salvar" onPress={() => {
-                    if (textWork < 1 || textShortRest < 1 || textLongRest < 1 || textCycles < 1) {
-                        showAlert();
-                    } else {
+                    if (textWork < 1 || textShortRest > 1 || textLongRest > 1 || textCycles > 1) {
+
                         save();
                         navigation.navigate('tela_inicial');
+
+                    } else {
+                        alertFormatoCampos();
                     }
                 }} />
             </View>
