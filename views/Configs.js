@@ -14,12 +14,11 @@ export default function Configs({ route, navigation }) {
     const [textLongRest, setLongRestText] = React.useState(longRestTime.toString());
     const [textCycles, setCyclesText] = React.useState(cycles + '');
 
-    console.log("2", textWork)
-
-
     const save = () => {
         let minutesWork = textWork.split(':');
-        minutesWork = minutesWork[0] * 60;
+        minutesWork = minutesWork[0] * 60;  
+        
+        console.log(minutesWork)
 
         setWorkTime(Number(minutesWork));
         setShortRestTime(Number(textShortRest));
@@ -40,7 +39,7 @@ export default function Configs({ route, navigation }) {
                     cancelable: true,
                 }
             ],
-        );
+        );    
 
     return (
         <View style={styles.container}>

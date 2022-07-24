@@ -11,39 +11,17 @@ import CountDown from 'react-native-countdown-component';
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
-    const [workTime, setWorkTime] = React.useState(60);
+    const [workTime, setWorkTime] = React.useState(2);
     const [shortRestTime, setShortRestTime] = React.useState(150);
     const [longRestTime, setLongRestTime] = React.useState(150);
     const [cycles, setCycles] = React.useState(1);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
 
-    // Funções para converter os segundos em minutos para exibição nos campos de configuração
-    const getFocoTime = (time) => {
-        const novoValor = parseInt(time / 60)
-
-
-        console.log("Teste: ", novoValor);
-        return setWorkTime(Number(novoValor));
-
-    }
-
-    const getShortRestTime = (time) => {
-        time / 60;
-        return setShortRestTime(time);
-    }
-
-    const getLongRestTime = (time) => {
-        time / 60;
-        return setLongRestTime(time);
-    }
+    console.log("workTime: ", workTime)
 
     const changeScreen = () => {
         setIsPlaying(false);
-        getFocoTime(workTime);
-        getShortRestTime(shortRestTime);
-        getLongRestTime(longRestTime);
-
         navigation.navigate('configuracoes', { workTime, setWorkTime, shortRestTime, setShortRestTime, longRestTime, setLongRestTime, cycles, setCycles });
     }
 
@@ -88,13 +66,8 @@ export default function Dashboard({ navigation }) {
                         timeToShow={['M', 'S']}
                         onFinish={() => onCompleteWorkPeriod()}
                         onPress={() => setIsPlaying(prev => !prev)}
-                        size={25}
-                        running={isPlaying}
-                        digitStyle={{ backgroundColor: '#57D0DB' }}
-                        digitTxtStyle={{ color: '#FFF' }}
-                        timeLabels={{ m: 'Minutos', s: 'Segundos' }}
-                        showSeparator={true}
-                        separatorStyle={{ color: '#FFF', marginBottom: '23px' }}>
+                        size={20}
+                        running={isPlaying}>
                     </CountDown>
                 )}
 
@@ -105,13 +78,8 @@ export default function Dashboard({ navigation }) {
                         timeToShow={['M', 'S']}
                         onFinish={() => onCompleteShortRestTime()}
                         onPress={() => setIsPlaying(prev => !prev)}
-                        size={25}
-                        running={isPlaying}
-                        digitStyle={{ backgroundColor: '#57D0DB' }}
-                        digitTxtStyle={{ color: '#FFF' }}
-                        timeLabels={{ m: 'Minutos', s: 'Segundos' }}
-                        showSeparator={true}
-                        separatorStyle={{ color: '#FFF', marginBottom: '23px' }}>
+                        size={20}
+                        running={isPlaying}>
                     </CountDown>
                 )}
 
@@ -122,13 +90,8 @@ export default function Dashboard({ navigation }) {
                         timeToShow={['M', 'S']}
                         onFinish={() => onCompleteLongRestTime()}
                         onPress={() => setIsPlaying(prev => !prev)}
-                        size={25}
-                        running={isPlaying}
-                        digitStyle={{ backgroundColor: '#57D0DB' }}
-                        digitTxtStyle={{ color: '#FFF' }}
-                        timeLabels={{ m: 'Minutos', s: 'Segundos' }}
-                        showSeparator={true}
-                        separatorStyle={{ color: '#FFF', marginBottom: '23px' }}>
+                        size={20}
+                        running={isPlaying}>
                     </CountDown>
                 )}
                 <ButtonPlay_Pause name={isPlaying ? 'pause' : 'play'} onPress={() => setIsPlaying(prev => !prev)}></ButtonPlay_Pause>
