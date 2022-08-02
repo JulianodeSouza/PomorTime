@@ -11,14 +11,14 @@ import CountDown from 'react-native-countdown-component';
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
-    const [workTime, setWorkTime] = React.useState(2);
+    const [workTime, setWorkTime] = React.useState(1500);
     const [shortRestTime, setShortRestTime] = React.useState(150);
     const [longRestTime, setLongRestTime] = React.useState(150);
     const [cycles, setCycles] = React.useState(1);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
 
-    console.log("workTime: ", workTime)
+    console.log("Dashboard workTime: ", workTime);
 
     const changeScreen = () => {
         setIsPlaying(false);

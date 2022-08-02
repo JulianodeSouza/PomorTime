@@ -15,10 +15,8 @@ export default function Configs({ route, navigation }) {
     const [textCycles, setCyclesText] = React.useState(cycles + '');
 
     const save = () => {
-        let minutesWork = textWork.split(':');
-        minutesWork = minutesWork[0] * 60;  
-        
-        console.log(minutesWork)
+        let minutesWork = textWork * 60;
+
 
         setWorkTime(Number(minutesWork));
         setShortRestTime(Number(textShortRest));
@@ -39,7 +37,7 @@ export default function Configs({ route, navigation }) {
                     cancelable: true,
                 }
             ],
-        );    
+        );
 
     return (
         <View style={styles.container}>
@@ -48,13 +46,13 @@ export default function Configs({ route, navigation }) {
                 <TextInputMask
                     type={'custom'}
                     options={{
-                        mask: '99:99'
+                        mask: '99'
                     }}
                     style={styles.camposText}
                     inputAccessoryViewID={inputAccessoryViewID}
                     onChangeText={setWorkText}
                     value={textWork}
-                    placeholder={'00:00'}
+                    placeholder={'00'}
                     keyboardType="numeric" />
             </View>
 
@@ -63,13 +61,13 @@ export default function Configs({ route, navigation }) {
                 <TextInputMask
                     type={'custom'}
                     options={{
-                        mask: '99:99'
+                        mask: '99'
                     }}
                     style={styles.camposText}
                     inputAccessoryViewID={inputAccessoryViewID}
                     onChangeText={setShortText}
                     value={textShortRest}
-                    placeholder={'00:00'}
+                    placeholder={'00'}
                     keyboardType="numeric" />
             </View>
 
@@ -78,13 +76,13 @@ export default function Configs({ route, navigation }) {
                 <TextInputMask
                     type={'custom'}
                     options={{
-                        mask: '99:99'
+                        mask: '99'
                     }}
                     style={styles.camposText}
                     inputAccessoryViewID={inputAccessoryViewID}
                     onChangeText={setLongRestText}
                     value={textLongRest}
-                    placeholder={'00:00'}
+                    placeholder={'00'}
                     keyboardType="numeric" />
             </View>
 
