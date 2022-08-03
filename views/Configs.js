@@ -46,7 +46,7 @@ export default function Configs({ route, navigation }) {
                 <TextInputMask
                     type={'custom'}
                     options={{
-                        mask: '99'
+                        mask: '9999'
                     }}
                     style={styles.camposText}
                     inputAccessoryViewID={inputAccessoryViewID}

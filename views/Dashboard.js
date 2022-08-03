@@ -6,19 +6,18 @@ import { ButtonGear } from '../assets/components/ButtonGear';
 import { ButtonSound } from '../assets/components/ButtonSound';
 import { ButtonPlay_Pause } from '../assets/components/ButtonPlay_Pause';
 import CountDown from 'react-native-countdown-component';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
-    const [workTime, setWorkTime] = React.useState(1500);
+    const [workTime, setWorkTime] = React.useState(1);
     const [shortRestTime, setShortRestTime] = React.useState(150);
     const [longRestTime, setLongRestTime] = React.useState(150);
     const [cycles, setCycles] = React.useState(1);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
-
-    console.log("Dashboard workTime: ", workTime);
 
     const changeScreen = () => {
         setIsPlaying(false);
@@ -61,14 +60,18 @@ export default function Dashboard({ navigation }) {
                 <Text style={{ marginBottom: 25, color: '#FFF', fontSize: 30, letterSpacing: 1, fontWeight: 'bold' }}>{estado}</Text>
                 {estado == 'Trabalhando' && (
 
-                    <CountDown
-                        until={workTime}
-                        timeToShow={['M', 'S']}
-                        onFinish={() => onCompleteWorkPeriod()}
-                        onPress={() => setIsPlaying(prev => !prev)}
-                        size={20}
-                        running={isPlaying}>
-                    </CountDown>
+                    <CountdownCircleTimer
+                        isPlaying={isPlaying}
+                        duration={workTime}
+                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colorsTime={[10, 6, 3, 0]}
+                        onComplete={onCompleteWorkPeriod}>
+                        {({ remainingTime }) => (
+                            <Text style={{ color: 'white', fontSize: 40 }}>
+                                {remainingTime}
+                            </Text>
+                        )}
+                    </CountdownCircleTimer>
                 )}
 
                 {estado == 'Relaxando' && ciclosConcluidos != cycles && (
