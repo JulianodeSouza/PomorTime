@@ -8,36 +8,51 @@ import { TextInputMask } from 'react-native-masked-text'
 export default function Configs({ route, navigation }) {
     const inputAccessoryViewID = 'uniqueID';
 
-    const { workTime, setWorkTime, shortRestTime, setShortRestTime, longRestTime, setLongRestTime, cycles, setCycles } = route.params;
-    const [textWork, setWorkText] = React.useState(workTime.toString());
-    const [textShortRest, setShortText] = React.useState(shortRestTime.toString());
-    const [textLongRest, setLongRestText] = React.useState(longRestTime.toString());
+    const { newWorkTime, setWorkTime, newShortRestTime, setShortRestTime, newLongRestTime, setLongRestTime, cycles, setCycles } = route.params;
+    const [textWork, setWorkText] = React.useState(newWorkTime.toString());
+    const [textShortRest, setShortText] = React.useState(newShortRestTime.toString());
+    const [textLongRest, setLongRestText] = React.useState(newLongRestTime.toString());
     const [textCycles, setCyclesText] = React.useState(cycles + '');
 
     const save = () => {
         let minutesWork = textWork * 60;
+        let minutesShortRest = textShortRest * 60;
+        let minutesLongRest = textLongRest * 60;
 
 
         setWorkTime(Number(minutesWork));
-        setShortRestTime(Number(textShortRest));
-        setLongRestTime(Number(textLongRest));
+        setShortRestTime(Number(minutesShortRest));
+        setLongRestTime(Number(minutesLongRest));
         setCycles(Number(textCycles));
     }
 
-    const alertFormatoCampos = () =>
-        Alert.alert(
-            "Atenção",
-            "Preencha todos campos corretamente!",
-            [
-                {
-                    text: "Fechar",
-                    style: "cancel",
-                },
-                {
-                    cancelable: true,
-                }
-            ],
-        );
+    const alertFormatoCampos = () => Alert.alert(
+        "Atenção",
+        "Todos os campos precisam ser maiores que 1!",
+        [
+            {
+                text: "Fechar",
+                style: "cancel",
+            },
+            {
+                cancelable: true,
+            }
+        ],
+    );
+
+    const alertTamanhoCampos = () => Alert.alert(
+        "Atenção",
+        "Todos campos precisam estar preenchidos!",
+        [
+            {
+                text: "Fechar",
+                style: "cancel",
+            },
+            {
+                cancelable: true,
+            }
+        ],
+    );
 
     return (
         <View style={styles.container}>
@@ -46,7 +61,7 @@ export default function Configs({ route, navigation }) {
                 <TextInputMask
                     type={'custom'}
                     options={{
-                        mask: '9999'
+                        mask: '99'
                     }}
                     style={styles.camposText}
                     inputAccessoryViewID={inputAccessoryViewID}
@@ -99,11 +114,17 @@ export default function Configs({ route, navigation }) {
 
             <View style={styles.save}>
                 <ButtonSave title="Salvar" onPress={() => {
-                    if (textWork < 1 || textShortRest > 1 || textLongRest > 1 || textCycles > 1) {
+                    if (textWork >= 1 && textShortRest >= 1 && textLongRest >= 1 && textCycles >= 1) {
+                        if (textWork != '' && textShortRest != '' && textLongRest != '' && textCycles != '') {
+                            if (textWork <= 60 && textShortRest <= 60 && textLongRest <= 60 && textCycles <= 60) {
+                                save();
+                                navigation.navigate('tela_inicial');
+                            } else {
 
-                        save();
-                        navigation.navigate('tela_inicial');
-
+                            }
+                        } else {
+                            alertTamanhoCampos();
+                        }
                     } else {
                         alertFormatoCampos();
                     }

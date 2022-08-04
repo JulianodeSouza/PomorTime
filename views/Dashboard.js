@@ -5,23 +5,58 @@ import Constants from 'expo-constants';
 import { ButtonGear } from '../assets/components/ButtonGear';
 import { ButtonSound } from '../assets/components/ButtonSound';
 import { ButtonPlay_Pause } from '../assets/components/ButtonPlay_Pause';
-import CountDown from 'react-native-countdown-component';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 
 
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
-    const [workTime, setWorkTime] = React.useState(1);
-    const [shortRestTime, setShortRestTime] = React.useState(150);
-    const [longRestTime, setLongRestTime] = React.useState(150);
-    const [cycles, setCycles] = React.useState(1);
+    const [workTime, setWorkTime] = React.useState(60);
+    const [shortRestTime, setShortRestTime] = React.useState(60);
+    const [longRestTime, setLongRestTime] = React.useState(60);
+    const [cycles, setCycles] = React.useState(2);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
 
+    const formatRemainingTime = time => {
+
+
+        if (time == 3600) {
+            const minutes = time / 60;
+            const seconds = time % 60;
+
+            if (seconds == '0') {
+                return `${minutes}:${seconds}0`;
+            } else {
+                return `${minutes}:${seconds}`;
+            }
+        } else {
+            const minutes = Math.floor((time % 3600) / 60);
+            const seconds = time % 60;
+
+            if (seconds == '0') {
+                return `${minutes}:${seconds}0`;
+            } else {
+                return `${minutes}:${seconds}`;
+            }
+        }
+    };
+
+    const renderTime = ({ remainingTime }) => {
+        return (
+            <Text style={{ color: 'white', fontSize: 40 }}>
+                {formatRemainingTime(remainingTime)}
+            </Text>
+        );
+    };
+
     const changeScreen = () => {
         setIsPlaying(false);
-        navigation.navigate('configuracoes', { workTime, setWorkTime, shortRestTime, setShortRestTime, longRestTime, setLongRestTime, cycles, setCycles });
+        // Ações para converter os segundos em minutos para a exibição nos campos de texto
+        let newWorkTime = workTime / 60;
+        let newShortRestTime = shortRestTime / 60;
+        let newLongRestTime = longRestTime / 60;
+        navigation.navigate('configuracoes', { newWorkTime, setWorkTime, newShortRestTime, setShortRestTime, newLongRestTime, setLongRestTime, cycles, setCycles });
     }
 
     const onCompleteWorkPeriod = () => {
@@ -66,36 +101,32 @@ export default function Dashboard({ navigation }) {
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
                         onComplete={onCompleteWorkPeriod}>
-                        {({ remainingTime }) => (
-                            <Text style={{ color: 'white', fontSize: 40 }}>
-                                {remainingTime}
-                            </Text>
-                        )}
+                        {renderTime}
                     </CountdownCircleTimer>
                 )}
 
                 {estado == 'Relaxando' && ciclosConcluidos != cycles && (
 
-                    <CountDown
-                        until={shortRestTime}
-                        timeToShow={['M', 'S']}
-                        onFinish={() => onCompleteShortRestTime()}
-                        onPress={() => setIsPlaying(prev => !prev)}
-                        size={20}
-                        running={isPlaying}>
-                    </CountDown>
+                    <CountdownCircleTimer
+                        isPlaying={isPlaying}
+                        duration={shortRestTime}
+                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colorsTime={[10, 6, 3, 0]}
+                        onComplete={onCompleteShortRestTime}>
+                        {renderTime}
+                    </CountdownCircleTimer>
                 )}
 
                 {estado == 'Relaxando' && ciclosConcluidos == cycles && (
 
-                    <CountDown
-                        until={longRestTime}
-                        timeToShow={['M', 'S']}
-                        onFinish={() => onCompleteLongRestTime()}
-                        onPress={() => setIsPlaying(prev => !prev)}
-                        size={20}
-                        running={isPlaying}>
-                    </CountDown>
+                    <CountdownCircleTimer
+                        isPlaying={isPlaying}
+                        duration={longRestTime}
+                        colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
+                        colorsTime={[10, 6, 3, 0]}
+                        onComplete={onCompleteLongRestTime}>
+                        {renderTime}
+                    </CountdownCircleTimer>
                 )}
                 <ButtonPlay_Pause name={isPlaying ? 'pause' : 'play'} onPress={() => setIsPlaying(prev => !prev)}></ButtonPlay_Pause>
             </View>
