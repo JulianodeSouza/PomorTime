@@ -11,16 +11,15 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
-    const [workTime, setWorkTime] = React.useState(60);
-    const [shortRestTime, setShortRestTime] = React.useState(60);
-    const [longRestTime, setLongRestTime] = React.useState(60);
+    const [workTime, setWorkTime] = React.useState(1500);
+    const [shortRestTime, setShortRestTime] = React.useState(300);
+    const [longRestTime, setLongRestTime] = React.useState(900);
     const [cycles, setCycles] = React.useState(2);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
+    const [playPause, setPlayPause] = React.useState(0);
 
     const formatRemainingTime = time => {
-
-
         if (time == 3600) {
             const minutes = time / 60;
             const seconds = time % 60;
@@ -52,6 +51,7 @@ export default function Dashboard({ navigation }) {
 
     const changeScreen = () => {
         setIsPlaying(false);
+        setPlayPause(prevKey => prevKey + 1)
         // Ações para converter os segundos em minutos para a exibição nos campos de texto
         let newWorkTime = workTime / 60;
         let newShortRestTime = shortRestTime / 60;
@@ -100,6 +100,7 @@ export default function Dashboard({ navigation }) {
                         duration={workTime}
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
+                        key={playPause}
                         onComplete={onCompleteWorkPeriod}>
                         {renderTime}
                     </CountdownCircleTimer>
@@ -112,6 +113,7 @@ export default function Dashboard({ navigation }) {
                         duration={shortRestTime}
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
+                        key={playPause}
                         onComplete={onCompleteShortRestTime}>
                         {renderTime}
                     </CountdownCircleTimer>
@@ -124,6 +126,7 @@ export default function Dashboard({ navigation }) {
                         duration={longRestTime}
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
+                        key={playPause}
                         onComplete={onCompleteLongRestTime}>
                         {renderTime}
                     </CountdownCircleTimer>

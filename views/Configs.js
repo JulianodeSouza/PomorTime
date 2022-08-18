@@ -26,9 +26,23 @@ export default function Configs({ route, navigation }) {
         setCycles(Number(textCycles));
     }
 
-    const alertFormatoCampos = () => Alert.alert(
+    const alertFormatoCamposMinimo = () => Alert.alert(
         "Atenção",
-        "Todos os campos precisam ser maiores que 1!",
+        "Todos os campos precisam ter tempos maiores que 1 minuto.",
+        [
+            {
+                text: "Fechar",
+                style: "cancel",
+            },
+            {
+                cancelable: true,
+            }
+        ],
+    );
+
+    const alertFormatoCamposMaximo = () => Alert.alert(
+        "Atenção",
+        "Todos os campos precisam ter tempos menors que 60 minutos.",
         [
             {
                 text: "Fechar",
@@ -120,13 +134,13 @@ export default function Configs({ route, navigation }) {
                                 save();
                                 navigation.navigate('tela_inicial');
                             } else {
-
+                                alertFormatoCamposMaximo();
                             }
                         } else {
                             alertTamanhoCampos();
                         }
                     } else {
-                        alertFormatoCampos();
+                        alertFormatoCamposMinimo();
                     }
                 }} />
             </View>
