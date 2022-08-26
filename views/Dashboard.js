@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Audio } from 'expo-av';
+import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 import { ButtonGear } from '../assets/components/ButtonGear';
-import { ButtonSound } from '../assets/components/ButtonSound';
 import { ButtonPlay_Pause } from '../assets/components/ButtonPlay_Pause';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-
 
 export default function Dashboard({ navigation }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
@@ -17,7 +16,34 @@ export default function Dashboard({ navigation }) {
     const [cycles, setCycles] = React.useState(2);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
-    const [playPause, setPlayPause] = React.useState(0);
+
+    // Variavel para pausar e reiniciar o timer quando trocar de tela
+    // const [pause, setPause] = React.useState(0);
+    const [sound, setSound] = React.useState();
+
+    // Função para tocar o ding ao finalizar o timer de foco
+    async function playSoundFoco() {
+        // constante para criar um evento de som
+        const { sound } = await Audio.Sound.createAsync(
+            require('../sounds/ding_foco.mp3')
+        );
+        setSound(sound);
+
+        // Executa o som
+        await sound.playAsync();
+    }
+
+    // Função para tocar o ding ao finalizar o timer de descanso
+    async function playSoundDescanso() {
+        // constante para criar um evento de som
+        const { sound } = await Audio.Sound.createAsync(
+            require('../sounds/ding_descanso.mp3')
+        );
+        setSound(sound);
+
+        // Executa o som
+        await sound.playAsync();
+    }
 
     const formatRemainingTime = time => {
         if (time == 3600) {
@@ -41,6 +67,7 @@ export default function Dashboard({ navigation }) {
         }
     };
 
+    // Função que exibe o tempo formatado
     const renderTime = ({ remainingTime }) => {
         return (
             <Text style={{ color: 'white', fontSize: 40 }}>
@@ -49,9 +76,10 @@ export default function Dashboard({ navigation }) {
         );
     };
 
+    // Função para redirecionar para a tela de configurações
     const changeScreen = () => {
         setIsPlaying(false);
-        setPlayPause(prevKey => prevKey + 1)
+        // setPause(prevKey => prevKey + 1);
         // Ações para converter os segundos em minutos para a exibição nos campos de texto
         let newWorkTime = workTime / 60;
         let newShortRestTime = shortRestTime / 60;
@@ -59,6 +87,7 @@ export default function Dashboard({ navigation }) {
         navigation.navigate('configuracoes', { newWorkTime, setWorkTime, newShortRestTime, setShortRestTime, newLongRestTime, setLongRestTime, cycles, setCycles });
     }
 
+    // Função para alterar o status quando tempo de foco terminar
     const onCompleteWorkPeriod = () => {
         setEstado('Relaxando');
         setIsPlaying(false);
@@ -66,28 +95,34 @@ export default function Dashboard({ navigation }) {
         if (ciclosConcluidos < cycles) {
             setCiclosConcluidos(ciclosConcluidos + 1);
         }
+
+        playSoundFoco();
         return ({ shouldRepeat: false, newInitialRemainingTime: workTime });
     }
 
+    // Função para alterar o status quando tempo de descanso curto terminar
     const onCompleteShortRestTime = () => {
         setEstado('Trabalhando');
         setIsPlaying(false);
 
+        playSoundDescanso();
         return ({ shouldRepeat: false, newInitialRemainingTime: shortRestTime });
     }
 
+    // Função para alterar o status quando tempo de descanso longo terminar
     const onCompleteLongRestTime = () => {
         setEstado('Trabalhando');
         setIsPlaying(false);
         setCiclosConcluidos(0);
 
+        playSoundDescanso();
         return ({ shouldRepeat: false, newInitialRemainingTime: longRestTime });
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.buttonsConfs}>
-                <ButtonSound name={isPlaying ? 'volume-mute-outline' : 'sound'} onPress={() => console.log("Teste")} />
+                {/* <ButtonSound name={isPlaying ? 'volume-mute-outline' : 'sound'} onPress={() => console.log("Teste")} /> */}
                 <ButtonGear style={styles.buttonGear} onPress={changeScreen}> </ButtonGear>
             </View>
 
@@ -100,7 +135,7 @@ export default function Dashboard({ navigation }) {
                         duration={workTime}
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
-                        key={playPause}
+                        // key={pause}
                         onComplete={onCompleteWorkPeriod}>
                         {renderTime}
                     </CountdownCircleTimer>
@@ -113,7 +148,7 @@ export default function Dashboard({ navigation }) {
                         duration={shortRestTime}
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
-                        key={playPause}
+                        // key={pause}
                         onComplete={onCompleteShortRestTime}>
                         {renderTime}
                     </CountdownCircleTimer>
@@ -126,7 +161,7 @@ export default function Dashboard({ navigation }) {
                         duration={longRestTime}
                         colors={["#d02224", "#bd1f21", "#ac1c1e", "#9c191b"]}
                         colorsTime={[10, 6, 3, 0]}
-                        key={playPause}
+                        // key={pause}
                         onComplete={onCompleteLongRestTime}>
                         {renderTime}
                     </CountdownCircleTimer>
@@ -152,7 +187,6 @@ const styles = StyleSheet.create({
     buttonsConfs: {
         flex: 2,
         paddingTop: 12,
-        justifyContent: 'space-between',
         flexDirection: 'row',
     },
     timer: {

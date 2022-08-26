@@ -68,6 +68,20 @@ export default function Configs({ route, navigation }) {
         ],
     );
 
+    const alertTamanhoCiclos = () => Alert.alert(
+        "Atenção",
+        "Quantidade de ciclos não pode ser inferior a 1.",
+        [
+            {
+                text: "Fechar",
+                style: "cancel",
+            },
+            {
+                cancelable: true,
+            }
+        ],
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.inputs}>
@@ -128,16 +142,20 @@ export default function Configs({ route, navigation }) {
 
             <View style={styles.save}>
                 <ButtonSave title="Salvar" onPress={() => {
-                    if (textWork >= 1 && textShortRest >= 1 && textLongRest >= 1 && textCycles >= 1) {
-                        if (textWork != '' && textShortRest != '' && textLongRest != '' && textCycles != '') {
-                            if (textWork <= 60 && textShortRest <= 60 && textLongRest <= 60 && textCycles <= 60) {
-                                save();
-                                navigation.navigate('tela_inicial');
+                    if (textWork >= 1 && textShortRest >= 1 && textLongRest >= 1) {
+                        if (textCycles >= 1) {
+                            if (textWork != '' && textShortRest != '' && textLongRest != '' && textCycles != '') {
+                                if (textWork <= 60 && textShortRest <= 60 && textLongRest <= 60 && textCycles <= 60) {
+                                    save();
+                                    navigation.navigate('tela_inicial');
+                                } else {
+                                    alertFormatoCamposMaximo();
+                                }
                             } else {
-                                alertFormatoCamposMaximo();
+                                alertTamanhoCampos();
                             }
                         } else {
-                            alertTamanhoCampos();
+                            alertTamanhoCiclos();
                         }
                     } else {
                         alertFormatoCamposMinimo();
