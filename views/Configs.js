@@ -42,7 +42,7 @@ export default function Configs({ route, navigation }) {
 
     const alertFormatoCamposMaximo = () => Alert.alert(
         "Atenção",
-        "Todos os campos precisam ter tempos menors que 60 minutos.",
+        "Todos os campos precisam ter tempos menores que 60 minutos.",
         [
             {
                 text: "Fechar",
