@@ -70,7 +70,7 @@ export default function Configs({ route, navigation }) {
 
     const alertTamanhoCiclos = () => Alert.alert(
         "Atenção",
-        "Quantidade de ciclos não pode ser inferior a 1.",
+        "Quantidade de ciclos não pode ser inferior a 4.",
         [
             {
                 text: "Fechar",
@@ -143,7 +143,7 @@ export default function Configs({ route, navigation }) {
             <View style={styles.save}>
                 <ButtonSave title="Salvar" onPress={() => {
                     if (textWork >= 1 && textShortRest >= 1 && textLongRest >= 1) {
-                        if (textCycles >= 1) {
+                        if (textCycles >= 4) {
                             if (textWork != '' && textShortRest != '' && textLongRest != '' && textCycles != '') {
                                 if (textWork <= 60 && textShortRest <= 60 && textLongRest <= 60 && textCycles <= 60) {
                                     save();

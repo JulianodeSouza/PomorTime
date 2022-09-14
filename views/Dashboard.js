@@ -13,7 +13,7 @@ export default function Dashboard({ navigation }) {
     const [workTime, setWorkTime] = React.useState(1500);
     const [shortRestTime, setShortRestTime] = React.useState(300);
     const [longRestTime, setLongRestTime] = React.useState(900);
-    const [cycles, setCycles] = React.useState(2);
+    const [cycles, setCycles] = React.useState(4);
     const [estado, setEstado] = React.useState("Trabalhando");
     const [ciclosConcluidos, setCiclosConcluidos] = React.useState(0);
 
