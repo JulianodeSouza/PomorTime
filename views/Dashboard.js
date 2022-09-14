@@ -92,10 +92,6 @@ export default function Dashboard({ navigation }) {
         setEstado('Relaxando');
         setIsPlaying(false);
 
-        if (ciclosConcluidos < cycles) {
-            setCiclosConcluidos(ciclosConcluidos + 1);
-        }
-
         playSoundFoco();
         return ({ shouldRepeat: false, newInitialRemainingTime: workTime });
     }
@@ -104,6 +100,10 @@ export default function Dashboard({ navigation }) {
     const onCompleteShortRestTime = () => {
         setEstado('Trabalhando');
         setIsPlaying(false);
+
+        if (ciclosConcluidos < cycles) {
+            setCiclosConcluidos(ciclosConcluidos + 1);
+        }
 
         playSoundDescanso();
         return ({ shouldRepeat: false, newInitialRemainingTime: shortRestTime });
