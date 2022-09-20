@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import Dashboard from './views/Dashboard';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+/* Telas */
+import Dashboard from './views/Dashboard';
 import Configs from './views/Configs';
 
 const Stack = createStackNavigator();
